@@ -53,7 +53,48 @@ namespace BookCipher
             }
             return sb.ToString();
         }
+static string Encrypt(string plaintext, string book)
+        {
+            string[] wordArray = book.Split(new[] { Environment.NewLine, " " }, StringSplitOptions.None);
+            string[] plainTextArray = plaintext.Split(new[] { Environment.NewLine, " " }, StringSplitOptions.None);
+            string cipherText = "";
+            try
+            {
+                for (int i = 0; i < plainTextArray.Length; i++)
+                {
+                    string word = plainTextArray[i];
+                    int index = Array.IndexOf(wordArray, word);
+                    if (index < 0)
+                    {
+                        throw new Exception();
+                    }
 
+                    cipherText += index + 1;
+                    cipherText += " ";
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Nuk mund te enkriptohet ky mesazh.\nProvoni nje tjeter!");
+            }
+            return cipherText.TrimEnd();
+        }
+        static string Decrypt(string ciphertext, string book)
+        {
+            int[] indexes = ciphertext
+                .Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(n => int.Parse(n) - 1)
+                .ToArray();
+
+            string plaintext = "";
+            string[] wordArray = book.Split(' ');
+            foreach (int index in indexes)
+            {
+                plaintext += wordArray[index] + " ";
+            }
+
+            return plaintext.TrimEnd();
+        }
         
     }
 }
