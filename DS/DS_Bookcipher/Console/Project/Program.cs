@@ -95,6 +95,63 @@ static string Encrypt(string plaintext, string book)
 
             return plaintext.TrimEnd();
         }
-        
+        static void Main(string[] args)
+        {
+            Console.Write("Zgjedhni extension-in e fajllit : ");
+            string extension = Console.ReadLine();
+            string plaintext = "";
+            string ciphertext = "";
+            string plaintextAgain = "";
+            adresa:
+            if(extension.ToLower() == "pdf")
+            {
+                Console.Write("Plaintext : ");
+                plaintext = Console.ReadLine();
+                ciphertext = Encrypt(plaintext, GetText(PDFFile));
+                Console.WriteLine("Ciphertext : " + ciphertext);
+         
+            }
+            else if(extension.ToLower() == "txt")
+            {
+                Console.Write("Plaintext : ");
+                plaintext = Console.ReadLine();
+                ciphertext = Encrypt(plaintext, readFile(textFile));
+                Console.WriteLine("Ciphertext : " + ciphertext);
+               
+            }
+            else
+            {
+                Console.WriteLine("Jepni extensionin pdf ose txt!");
+                extension = Console.ReadLine();
+                goto adresa;
+            }
+            
+            Console.WriteLine("A deshironi ta gjeni plaintext-in nga ciphertext-i? y(yes)");
+            string opsioni = Console.ReadLine();
+            if (opsioni == "y")
+            {
+                if (extension.ToLower() == "pdf")
+                {
+                    Console.Write("Ciphertext : ");
+                    ciphertext = Console.ReadLine();
+                    plaintextAgain = Decrypt(ciphertext, GetText(PDFFile));
+                    Console.WriteLine("Plain Text for this cipherText is " + plaintextAgain);
+                }
+                if (extension.ToLower() == "txt")
+                {
+                    Console.Write("Ciphertext : ");
+                    ciphertext = Console.ReadLine();
+                    plaintextAgain = Decrypt(ciphertext, readFile(textFile));
+                    Console.WriteLine("Plaintext for this ciphertext is " + plaintextAgain);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Programi ka perfunduar....");
+            }
+
+
+
+        }
     }
 }
